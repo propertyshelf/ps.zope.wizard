@@ -4,6 +4,7 @@
 *~
 .installed.cfg
 .mr.developer.cfg
+.coverage
 bin/
 checkouts/
 coverage/
@@ -13,5 +14,6 @@ docs/build/
 docs/themepreview/
 downloads/
 eggs/
+htmlcov/
 parts/
 var/
