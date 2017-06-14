@@ -1,0 +1,1 @@
+- Thomas Massmann, thomas@propertyshelf.com
