@@ -1,0 +1,7 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="ps.zope.wizard">
+
+  <include package="z3c.form" />
+
+</configure>
