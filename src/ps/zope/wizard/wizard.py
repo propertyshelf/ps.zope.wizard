@@ -282,6 +282,7 @@ class Wizard(form.Form):
 
         Do this to ensure that changes get persisted.
         """
+        self.request_session._p_changed = True
 
     @property
     def absolute_url(self):
