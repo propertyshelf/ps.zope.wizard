@@ -70,7 +70,7 @@ class Step(form.Form):
         """See z3c.form.interfaces.IForm."""
         session = self.wizard.session
         data = session.get(self.prefix, None)
-        if data is None:
+        if not data:
             self.load(self.wizard.context)
             self.wizard.sync()
         super(Step, self).update()
