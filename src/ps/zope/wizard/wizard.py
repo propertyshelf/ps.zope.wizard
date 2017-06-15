@@ -156,6 +156,9 @@ class Wizard(form.Form):
 
         The default implementation calls the 'load' method of each wizard step.
         """
+        for step in self.active_steps:
+            if hasattr(step, 'load'):
+                step.load(context)
 
     def finish(self):
         """Called when a wizard is successfully completed
