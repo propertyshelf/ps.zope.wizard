@@ -49,7 +49,7 @@ class Step(form.Form):
     def apply_changes(self, data):
         """Save changes from this step to its content.
 
-        The content is typically a PersistentDict in the wizard's storage.
+        The content is typically a PersistentDict in the wizard's session.
         """
         pass
 
@@ -58,7 +58,7 @@ class Step(form.Form):
         pass
 
     def apply(self, context):
-        """Update a context based on the storage data for this step."""
+        """Update a context based on the session data for this step."""
         pass
 
 
@@ -106,8 +106,7 @@ class Wizard(form.Form):
         """
 
     def sync(self):
-        """Synchronize wizard session data with storage.
+        """Mark the session as having changed.
 
-        Mark the session as having changed, to ensure that changes get
-        persisted.
+        Do this to ensure that changes get persisted.
         """
