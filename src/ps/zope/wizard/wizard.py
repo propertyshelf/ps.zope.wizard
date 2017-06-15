@@ -24,12 +24,12 @@ def apply_changes(form, content, data):
     z3c.form.form, to make it not break if there's no value set yet.
     """
     changes = {}
-    for name, field in form.fields.items():
+    for name, _field in form.fields.items():
         # If the field is not in the data, then go on to the next one.
         if name not in data:
             continue
         # Get the datamanager and get the original value.
-        dm = getMultiAdapter((content, field.field), IDataManager)
+        dm = getMultiAdapter((content, _field.field), IDataManager)
         old_value = dm.query()
         # Only update the data, if it is different.
         if old_value != data[name]:
