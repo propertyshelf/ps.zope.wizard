@@ -109,6 +109,25 @@ class Step(form.Form):
         # do not redirect.
         self.wizard.updateActions()
 
+    @button.buttonAndHandler(
+        u'Continue',
+        name='continue',
+        condition=lambda form: form.wizard.show_continue()
+    )
+    def handle_continue(self, action):
+        """"Continue button."""
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.wizard.form_errors_message
+        else:
+            self.apply_changes(data)
+            self.wizard.update_current_step(self.wizard.current_index + 1)
+
+            # Proceeding can change the conditions for the finish button,
+            # so we need to reconstruct the button actions, since we
+            # do not redirect.
+            self.wizard.updateActions()
+
 
 @implementer(IWizard)
 class Wizard(form.Form):
