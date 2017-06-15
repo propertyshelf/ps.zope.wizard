@@ -28,7 +28,7 @@ class IStep(IForm):
         respective buttons regardless of the value of this property.
         """)
 
-    completed = Attribute("""
+    enabled = Attribute("""
         Indicates whether the user should be allowed to move on to the
         next step or not. Defaults to True. If false, the Continue button
         will be disabled.

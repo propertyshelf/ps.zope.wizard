@@ -55,7 +55,7 @@ class Step(form.Form):
     label = u''
     description = u''
     wizard = None
-    completed = True
+    enabled = True
 
     def __init__(self, context, request, wizard):
         super(Step, self).__init__(context, request)
