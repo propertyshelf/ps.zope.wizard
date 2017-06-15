@@ -97,6 +97,22 @@ class Step(form.Form):
         pass
 
     @button.buttonAndHandler(
+        u'Clear',
+        name='clear',
+        condition=lambda form: form.wizard.show_clear(),
+    )
+    def handle_clear(self, action):
+        """Clear button."""
+        self.wizard.session.clear()
+        self.wizard.sync()
+        self.status = self.wizard.clear_message
+        self.wizard.update_active_steps()
+        self.wizard.update_current_step(0)
+        self.wizard.updateActions()
+        self.wizard.current_step.ignoreRequest = True
+        self.wizard.current_step.update()
+
+    @button.buttonAndHandler(
         u'Back',
         name='back',
         condition=lambda form: form.wizard.show_back(),
