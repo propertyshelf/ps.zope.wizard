@@ -1,0 +1,29 @@
+<div class="form"
+    tal:condition="not:view/finished"
+    tal:attributes="id string:wizard-step-${view/current_step/id}">
+
+  <h1 tal:condition="view/label"
+      tal:content="view/label">Form description</h1>
+
+  <div class="description"
+      tal:condition="view/description"
+      tal:content="structure view/description">Form description</div>
+
+  <ul class="wizard-steps">
+    <li class="wizard-step-link"
+        tal:repeat="step view/active_steps"
+        tal:attributes="class python:'wizard-step-link' + ((step is view.current_step) and ' selected' or '')">
+      <a href=""
+          tal:omit-tag="python:not step.finished or step is view.current_step"
+          tal:define="href view/absolute_url | string:"
+          tal:attributes="href string: ${href}?step:int=${repeat/step/index}">
+        <tal:block tal:replace="step/label" />
+      </a>
+    </li>
+  </ul>
+
+  <tal:form define="form nocall:view/current_step">
+    <div tal:replace="structure form/render" />
+  </tal:form>
+
+</div>

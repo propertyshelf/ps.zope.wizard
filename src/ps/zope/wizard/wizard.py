@@ -9,6 +9,7 @@ from z3c.form import (
     form,
 )
 from z3c.form.interfaces import IDataManager
+from zope.browserpage import ViewPageTemplateFile
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.session.interfaces import ISession
@@ -180,6 +181,7 @@ class Wizard(form.Form):
     Subclasses must provide at least the finish method.
     """
 
+    template = ViewPageTemplateFile('wizard.pt')
     steps = ()
     label = u''
     description = u''
