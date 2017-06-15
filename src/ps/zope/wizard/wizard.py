@@ -73,7 +73,9 @@ class Step(form.Form):
 
         The content is typically a PersistentDict in the wizard's session.
         """
-        pass
+        content = self.getContent()
+        apply_changes(self, content, data)
+        self.wizard.sync()
 
     def load(self, context):
         """Load the data for this step based on a context."""
