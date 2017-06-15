@@ -61,12 +61,12 @@ class Step(form.Form):
         super(Step, self).__init__(context, request)
         self.wizard = wizard
 
+    def getContent(self):
+        return self.wizard.session.setdefault(self.prefix, PersistentDict())
+
     @property
     def finished(self):
         return self.prefix in self.wizard.session
-
-    def getContent(self):
-        return self.wizard.sessionK.setdefault(self.prefix, PersistentDict())
 
     def apply_changes(self, data):
         """Save changes from this step to its content.
