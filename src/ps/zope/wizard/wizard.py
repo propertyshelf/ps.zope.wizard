@@ -282,3 +282,27 @@ class Wizard(form.Form):
 
         Do this to ensure that changes get persisted.
         """
+
+    @property
+    def on_last_step(self):
+        return self.current_index == len(self.steps) - 1
+
+    def show_continue(self):
+        return not self.on_last_step
+
+    @property
+    def all_steps_finished(self):
+        for step in self.active_steps:
+            if not step.finished:
+                return False
+        return True
+
+    def show_finish(self):
+        return self.all_steps_finished or self.on_last_step
+
+    @property
+    def on_first_step(self):
+        return self.current_index == 0
+
+    def show_back(self):
+        return not self.on_first_step
