@@ -149,6 +149,7 @@ class Wizard(form.Form):
 
         The default implementation calls the 'load_steps' method.
         """
+        self.load_steps(self.context)
 
     def load_steps(self, context):
         """Load the wizard session data from a context.
