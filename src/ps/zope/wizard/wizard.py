@@ -128,6 +128,24 @@ class Step(form.Form):
             # do not redirect.
             self.wizard.updateActions()
 
+    @button.buttonAndHandler(
+        u'Finish',
+        name='finish',
+        condition=lambda form: form.wizard.show_finish())
+    def handle_finish(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.wizard.form_errors_message
+            return
+        else:
+            self.status = self.wizard.success_message
+            self.wizard.finished = True
+        self.wizard.current_step.apply_changes(data)
+        self.wizard.finish()
+        # Clear out the session
+        del self.wizard.request_session[self.wizard.session_key]
+        self.wizard.sync()
+
 
 @implementer(IWizard)
 class Wizard(form.Form):
