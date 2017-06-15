@@ -19,8 +19,13 @@ long_description = ('\n'.join([
 install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
+    'persistent',
     'z3c.form',
+    'zope.browserpage',
+    'zope.component',
+    'zope.interface',
     'zope.session',
+    'zope.traversing',
 ]
 
 setup(
