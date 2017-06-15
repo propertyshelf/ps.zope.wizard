@@ -237,6 +237,11 @@ class Wizard(form.Form):
             step = step(self.context, self.request, self)
             self.active_steps.append(step)
 
+    def jump_to_current_step(self):
+        self.update_current_step(self.session.setdefault('step', 0))
+        if 'step' in self.request.form:
+            self.jump(self.request.form['step'])
+
     def update_current_step(self, index):
         self.current_index = index
         self.session['step'] = self.current_index
