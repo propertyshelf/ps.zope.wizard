@@ -30,7 +30,7 @@ class IWizard(IForm):
         """)
 
     session_key = Attribute("""
-        Returns the unique session key used by this wizard instance.
+        Return the unique session key used by this wizard instance.
 
         By default, this is a tuple of 'ps.zope.wizard' and the URL
         path to the wizard.

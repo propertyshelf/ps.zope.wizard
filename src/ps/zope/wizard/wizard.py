@@ -83,6 +83,16 @@ class Wizard(form.Form):
     finished = False
     validate_back = True
 
+    @property
+    def session_key(self):
+        """Return the unique session key used by this wizard instance."""
+        try:
+            path = [getPath(self.context)]
+        except TypeError:
+            path = []
+        path.append(self.__name__)
+        return (WIZARD_SESSION_KEY, tuple(path))
+
     def initialize(self):
         """Called the first time a wizard is viewed in a new wizard session.
 
