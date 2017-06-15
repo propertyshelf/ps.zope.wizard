@@ -52,6 +52,8 @@ class Step(form.Form):
     Subclasses will typically want to override at least the fields attribute.
     """
 
+    label = u''
+    description = u''
     wizard = None
     completed = True
 
