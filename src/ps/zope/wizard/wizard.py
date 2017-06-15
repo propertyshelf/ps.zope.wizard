@@ -237,6 +237,13 @@ class Wizard(form.Form):
             step = step(self.context, self.request, self)
             self.active_steps.append(step)
 
+    def update_current_step(self, index):
+        self.current_index = index
+        self.session['step'] = self.current_index
+        self.sync()
+        self.current_step = self.active_steps[self.current_index]
+        self.current_step.update()
+
     def jump(self, step_idx):
         """Jump to specific step.
 
