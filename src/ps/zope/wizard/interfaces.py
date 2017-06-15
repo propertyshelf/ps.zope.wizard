@@ -67,7 +67,7 @@ class IWizard(IForm):
         all user input (data).
         """)
 
-    def initialize(self):
+    def initialize():
         """Called the first time a wizard is viewed in a new wizard session.
 
         This method may be used to populate the wizard session with data
@@ -79,7 +79,7 @@ class IWizard(IForm):
         The default implementation calls the 'load_steps' method.
         """
 
-    def load_steps(self, context):
+    def load_steps(context):
         """Load the wizard session data from a context.
 
         The default implementation calls the 'load' method of each wizard step.
@@ -96,7 +96,7 @@ class IWizard(IForm):
         The default implementation calls the 'apply_steps' method.
         """
 
-    def apply_steps(self, context):
+    def apply_steps(context):
         """Update a context based on the wizard session data.
 
         The default implementation calls the 'apply' method of each wizard
@@ -139,14 +139,14 @@ class IStep(IForm):
         will be disabled.
         """)
 
-    def apply_changes(self, data):
+    def apply_changes(data):
         """Save changes from this step to its content.
 
         The content is typically a PersistentDict in the wizard's storage.
         """
 
-    def load(self, context):
+    def load(context):
         """Load the data for this step based on a context."""
 
-    def apply(self, context):
+    def apply(context):
         """Update a context based on the storage data for this step."""
