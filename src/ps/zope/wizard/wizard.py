@@ -237,6 +237,21 @@ class Wizard(form.Form):
             step = step(self.context, self.request, self)
             self.active_steps.append(step)
 
+    def jump(self, step_idx):
+        """Jump to specific step.
+
+        A jump is only possible, if the step has been completed already.
+        """
+        try:
+            target_step = self.active_steps[step_idx]
+        except (KeyError, TypeError):
+            return
+        if not target_step.finished:
+            return
+
+        self.update_current_step(step_idx)
+        self.updateActions()
+
     def initialize(self):
         """Called the first time a wizard is viewed in a new wizard session.
 
