@@ -276,6 +276,9 @@ class Wizard(form.Form):
         The default implementation calls the 'apply' method of each wizard
         step.
         """
+        for step in self.active_steps:
+            if hasattr(step, 'apply'):
+                step.apply(context)
 
     def sync(self):
         """Mark the session as having changed.
