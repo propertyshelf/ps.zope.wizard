@@ -4,6 +4,7 @@
 # zope imports
 from persistent.dict import PersistentDict
 from z3c.form import (
+    button,
     field,
     form,
 )
@@ -84,6 +85,29 @@ class Step(form.Form):
     def apply(self, context, **kw):
         """Update a context based on the session data for this step."""
         pass
+
+    @button.buttonAndHandler(
+        u'Back',
+        name='back',
+        condition=lambda form: form.wizard.show_back(),
+    )
+    def handle_back(self, action):
+        """Back button."""
+        if self.wizard.validate_back:
+            # If enabled, allow navigating back only if the current
+            # step validates and can be saved.
+            data, errors = self.extractData()
+            if errors:
+                self.status = self.wizard.form_errors_message
+                return
+            self.apply_changes(data)
+
+        self.wizard.update_current_step(self.wizard.current_index - 1)
+
+        # Going back can change the conditions for the finish button,
+        # so we need to reconstruct the button actions, since we
+        # do not redirect.
+        self.wizard.updateActions()
 
 
 @implementer(IWizard)
