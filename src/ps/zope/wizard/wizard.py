@@ -269,6 +269,7 @@ class Wizard(form.Form):
 
         The default implementation calls the 'apply_steps' method.
         """
+        self.apply_steps(self.context)
 
     def apply_steps(self, context):
         """Update a context based on the wizard session data.
