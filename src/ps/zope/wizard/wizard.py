@@ -211,12 +211,9 @@ class Wizard(form.Form):
             self.initialize()
             self.sync()
 
-        # self.jumpToCurrentStep()
+        self.jump_to_current_step()
+        super(Wizard, self).update()
 
-        # self.updateActions()
-        # self.actions.execute()
-        # self.updateWidgets()
-        return super(Wizard, self).update()
     @property
     def session_key(self):
         """Return the unique session key used by this wizard instance."""
