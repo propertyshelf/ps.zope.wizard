@@ -77,11 +77,11 @@ class Step(form.Form):
         apply_changes(self, content, data)
         self.wizard.sync()
 
-    def load(self, context):
+    def load(self, context, **kw):
         """Load the data for this step based on a context."""
         pass
 
-    def apply(self, context):
+    def apply(self, context, **kw):
         """Update a context based on the session data for this step."""
         pass
 
