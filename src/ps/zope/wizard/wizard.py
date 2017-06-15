@@ -97,6 +97,34 @@ class Wizard(form.Form):
     def request_session(self):
         return ISession(self.request)['ps.zope.wizard']
 
+    def update(self):
+        """Customized update method."""
+        # Initialize session.
+        session_key = self.session_key
+        if session_key not in self.request_session:
+            self.request_session[session_key] = {}
+        self.session = self.request_session[session_key]
+
+        self.update_active_steps()
+
+        # If this wizard hasn't been loaded yet in this session, load the data.
+        if not len(self.session):
+            self.initialize()
+            self.sync()
+
+        # self.jumpToCurrentStep()
+
+        # self.updateActions()
+        # self.actions.execute()
+        # self.updateWidgets()
+        return super(Wizard, self).update()
+
+    def update_active_steps(self):
+        self.active_steps = []
+        for step in self.steps:
+            step = step(self.context, self.request, self)
+            self.active_steps.append(step)
+
     def initialize(self):
         """Called the first time a wizard is viewed in a new wizard session.
 
