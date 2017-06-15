@@ -29,15 +29,15 @@ class IWizard(IForm):
         sequence.
         """)
 
-    storage_key = Attribute("""
-        Returns the unique storage key used by this wizard instance.
+    session_key = Attribute("""
+        Returns the unique session key used by this wizard instance.
 
         By default, this is a tuple of 'ps.zope.wizard' and the URL
         path to the wizard.
         """)
 
-    storage = Attribute("""
-        The storage where data for this wizard is persisted.
+    session = Attribute("""
+        The session where data for this wizard is persisted.
 
         Available after the wizard's update method has been called.
         This can be a session or annotation.
@@ -104,10 +104,9 @@ class IWizard(IForm):
         """
 
     def sync():
-        """Synchronize wizard session data with storage.
+        """Mark the session as having changed.
 
-        Mark the session as having changed, to ensure that changes get
-        persisted.
+        Do this to ensure that changes get persisted.
         """
 
 
@@ -115,7 +114,7 @@ class IStep(IForm):
     """A single step of a z3c.form based wizard.
 
     By default, the content accessed by this form will be a PersistentDict
-    within the wizard storage, with a key equal to the step's prefix.
+    within the wizard session, with a key equal to the step's prefix.
     """
 
     label = Attribute("""Title displayed at the wizard step.""")
@@ -127,7 +126,7 @@ class IStep(IForm):
     available = Attribute("""
         It indicates whether the current step can be accessed via the
         wizard navigation links or not. By default, only steps for which
-        there is already data stored in the storage can be accessed.
+        there is already data stored in the session can be accessed.
 
         The next and previous steps can always be accessed via the
         respective buttons regardless of the value of this property.
@@ -142,11 +141,11 @@ class IStep(IForm):
     def apply_changes(data):
         """Save changes from this step to its content.
 
-        The content is typically a PersistentDict in the wizard's storage.
+        The content is typically a PersistentDict in the wizard's session.
         """
 
     def load(context):
         """Load the data for this step based on a context."""
 
     def apply(context):
-        """Update a context based on the storage data for this step."""
+        """Update a context based on the session data for this step."""
