@@ -6,6 +6,47 @@ from z3c.form.interfaces import IForm
 from zope.interface import Attribute
 
 
+class IStep(IForm):
+    """A single step of a z3c.form based wizard.
+
+    By default, the content accessed by this form will be a PersistentDict
+    within the wizard session, with a key equal to the step's prefix.
+    """
+
+    label = Attribute("""Title displayed at the wizard step.""")
+
+    description = Attribute("""Description displayed at the wizard step.""")
+
+    wizard = Attribute("""The wizard this step is being used in.""")
+
+    finished = Attribute("""
+        It indicates whether the current step can be accessed via the
+        wizard navigation links or not. By default, only steps for which
+        there is already data stored in the session can be accessed.
+
+        The next and previous steps can always be accessed via the
+        respective buttons regardless of the value of this property.
+        """)
+
+    completed = Attribute("""
+        Indicates whether the user should be allowed to move on to the
+        next step or not. Defaults to True. If false, the Continue button
+        will be disabled.
+        """)
+
+    def apply_changes(data):  # noqa
+        """Save changes from this step to its content.
+
+        The content is typically a PersistentDict in the wizard's session.
+        """
+
+    def load(context):  # noqa
+        """Load the data for this step based on a context."""
+
+    def apply(context):  # noqa
+        """Update a context based on the session data for this step."""
+
+
 class IWizard(IForm):
     """A multi-step z3c.form based wizard."""
 
@@ -52,7 +93,7 @@ class IWizard(IForm):
         """)
 
     all_steps_finished = Attribute("""
-        True if the 'available' attribute of each wizard step is True.
+        True if the 'finished' attribute of each wizard step is True.
         """)
 
     finished = Attribute("""
@@ -79,7 +120,7 @@ class IWizard(IForm):
         The default implementation calls the 'load_steps' method.
         """
 
-    def load_steps(context):
+    def load_steps(context):  # noqa
         """Load the wizard session data from a context.
 
         The default implementation calls the 'load' method of each wizard step.
@@ -96,7 +137,7 @@ class IWizard(IForm):
         The default implementation calls the 'apply_steps' method.
         """
 
-    def apply_steps(context):
+    def apply_steps(context):  # noqa
         """Update a context based on the wizard session data.
 
         The default implementation calls the 'apply' method of each wizard
@@ -108,44 +149,3 @@ class IWizard(IForm):
 
         Do this to ensure that changes get persisted.
         """
-
-
-class IStep(IForm):
-    """A single step of a z3c.form based wizard.
-
-    By default, the content accessed by this form will be a PersistentDict
-    within the wizard session, with a key equal to the step's prefix.
-    """
-
-    label = Attribute("""Title displayed at the wizard step.""")
-
-    description = Attribute("""Description displayed at the wizard step.""")
-
-    wizard = Attribute("""The wizard this step is being used in.""")
-
-    available = Attribute("""
-        It indicates whether the current step can be accessed via the
-        wizard navigation links or not. By default, only steps for which
-        there is already data stored in the session can be accessed.
-
-        The next and previous steps can always be accessed via the
-        respective buttons regardless of the value of this property.
-        """)
-
-    completed = Attribute("""
-        Indicates whether the user should be allowed to move on to the
-        next step or not. Defaults to True. If false, the Continue button
-        will be disabled.
-        """)
-
-    def apply_changes(data):
-        """Save changes from this step to its content.
-
-        The content is typically a PersistentDict in the wizard's session.
-        """
-
-    def load(context):
-        """Load the data for this step based on a context."""
-
-    def apply(context):
-        """Update a context based on the session data for this step."""
