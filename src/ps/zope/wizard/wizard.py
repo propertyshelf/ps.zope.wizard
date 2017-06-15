@@ -93,6 +93,10 @@ class Wizard(form.Form):
         path.append(self.__name__)
         return (WIZARD_SESSION_KEY, tuple(path))
 
+    @property
+    def request_session(self):
+        return ISession(self.request)['ps.zope.wizard']
+
     def initialize(self):
         """Called the first time a wizard is viewed in a new wizard session.
 
