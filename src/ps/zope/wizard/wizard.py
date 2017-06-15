@@ -2,7 +2,10 @@
 """A z3c.form based wizard with adjustable storage backends."""
 
 # zope imports
-from z3c.form import form
+from z3c.form import (
+    field,
+    form,
+)
 from z3c.form.interfaces import IDataManager
 from zope.component import getMultiAdapter
 from zope.interface import implementer
@@ -68,6 +71,17 @@ class Wizard(form.Form):
 
     Subclasses must provide at least the finish method.
     """
+
+    steps = ()
+    label = u''
+    description = u''
+    ignoreContext = True
+    fields = field.Fields()
+
+    current_step = None
+    current_index = None
+    finished = False
+    validate_back = True
 
     def initialize(self):
         """Called the first time a wizard is viewed in a new wizard session.
