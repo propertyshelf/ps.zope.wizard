@@ -193,22 +193,9 @@ class Wizard(form.Form):
     finished = False
     validate_back = True
 
-    @property
-    def session_key(self):
-        """Return the unique session key used by this wizard instance."""
-        try:
-            path = [getPath(self.context)]
-        except TypeError:
-            path = []
-        path.append(self.__name__)
-        return (WIZARD_SESSION_KEY, tuple(path))
-
-    @property
-    def request_session(self):
-        return ISession(self.request)['ps.zope.wizard']
 
     def update(self):
-        """Customized update method."""
+        """See z3c.form.interfaces.IForm."""
         # Initialize session.
         session_key = self.session_key
         if session_key not in self.request_session:
@@ -228,6 +215,19 @@ class Wizard(form.Form):
         # self.actions.execute()
         # self.updateWidgets()
         return super(Wizard, self).update()
+    @property
+    def session_key(self):
+        """Return the unique session key used by this wizard instance."""
+        try:
+            path = [getPath(self.context)]
+        except TypeError:
+            path = []
+        path.append(self.__name__)
+        return (WIZARD_SESSION_KEY, tuple(path))
+
+    @property
+    def request_session(self):
+        return ISession(self.request)['ps.zope.wizard']
 
     def update_active_steps(self):
         self.active_steps = []
