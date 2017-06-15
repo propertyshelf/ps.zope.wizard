@@ -63,7 +63,17 @@ class Step(form.Form):
         self.wizard = wizard
 
     def getContent(self):
+        """See z3c.form.interfaces.IForm."""
         return self.wizard.session.setdefault(self.prefix, PersistentDict())
+
+    def update(self):
+        """See z3c.form.interfaces.IForm."""
+        session = self.wizard.session
+        data = session.get(self.prefix, None)
+        if data is None:
+            self.load(self.wizard.context)
+            self.wizard.sync()
+        super(Step, self).update()
 
     @property
     def finished(self):
