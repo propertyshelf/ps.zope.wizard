@@ -20,6 +20,7 @@ install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
     'z3c.form',
+    'zope.session',
 ]
 
 setup(
