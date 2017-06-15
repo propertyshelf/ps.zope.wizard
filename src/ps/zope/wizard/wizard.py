@@ -2,6 +2,7 @@
 """A z3c.form based wizard with adjustable storage backends."""
 
 # zope imports
+from persistent.dict import PersistentDict
 from z3c.form import (
     field,
     form,
@@ -50,6 +51,16 @@ class Step(form.Form):
 
     Subclasses will typically want to override at least the fields attribute.
     """
+
+    wizard = None
+    completed = True
+
+    def __init__(self, context, request, wizard):
+        super(Step, self).__init__(context, request)
+        self.wizard = wizard
+
+    def getContent(self):
+        return self.wizard.sessionK.setdefault(self.prefix, PersistentDict())
 
     def apply_changes(self, data):
         """Save changes from this step to its content.
