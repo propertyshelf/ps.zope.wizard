@@ -13,6 +13,7 @@ from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.session.interfaces import ISession
 from zope.traversing.api import getPath
+from zope.traversing.browser import absoluteURL
 
 # local imports
 from ps.zope.wizard.interfaces import (
@@ -97,20 +98,19 @@ class Step(form.Form):
         pass
 
     @button.buttonAndHandler(
-        u'Clear',
-        name='clear',
-        condition=lambda form: form.wizard.show_clear(),
+        u'Cancel',
+        name='cancel',
     )
-    def handle_clear(self, action):
+    def handle_cancel(self, action):
         """Clear button."""
-        self.wizard.session.clear()
-        self.wizard.sync()
-        self.status = self.wizard.clear_message
-        self.wizard.update_active_steps()
-        self.wizard.update_current_step(0)
-        self.wizard.updateActions()
-        self.wizard.current_step.ignoreRequest = True
-        self.wizard.current_step.update()
+        # Clear out the session
+        try:
+            del self.wizard.request_session[self.wizard.session_key]
+        except KeyError:
+            pass
+        else:
+            self.wizard.sync()
+        self.request.response.redirect(absoluteURL(self.context, self.request))
 
     @button.buttonAndHandler(
         u'Back',
