@@ -8,10 +8,7 @@ except ImportError:
     import unittest
 
 # zope imports
-from zope.interface.verify import (
-    verifyClass,
-    verifyObject,
-)
+from zope.interface.verify import verifyClass
 
 # local imports
 from ps.zope.wizard.interfaces import (
