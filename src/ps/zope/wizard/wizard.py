@@ -9,6 +9,8 @@ from z3c.form import (
 from z3c.form.interfaces import IDataManager
 from zope.component import getMultiAdapter
 from zope.interface import implementer
+from zope.session.interfaces import ISession
+from zope.traversing.api import getPath
 
 # local imports
 from ps.zope.wizard.interfaces import (
