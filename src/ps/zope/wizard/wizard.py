@@ -193,6 +193,8 @@ class Wizard(form.Form):
     finished = False
     validate_back = True
 
+    success_message = u'Information submitted successfully.'
+    form_errors_message = u'There were errors.'
 
     def update(self):
         """See z3c.form.interfaces.IForm."""
