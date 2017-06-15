@@ -284,6 +284,13 @@ class Wizard(form.Form):
         """
 
     @property
+    def absolute_url(self):
+        return '/'.join([
+            absoluteURL(self.context, self.request),
+            self.__name__ or '',
+        ])
+
+    @property
     def on_last_step(self):
         return self.current_index == len(self.steps) - 1
 
