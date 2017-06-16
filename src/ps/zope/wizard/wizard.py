@@ -109,46 +109,6 @@ class Step(form.Form):
         content['_finished'] = finished
 
     @button.buttonAndHandler(
-        u'Cancel',
-        name='cancel',
-    )
-    def handle_cancel(self, action):
-        """Clear button."""
-        # Clear out the session
-        try:
-            del self.wizard.request_session[self.wizard.session_key]
-        except KeyError:
-            pass
-        else:
-            self.wizard.sync()
-        self.request.response.redirect(absoluteURL(self.context, self.request))
-
-    @button.buttonAndHandler(
-        u'Back',
-        name='back',
-        condition=lambda form: form.wizard.show_back(),
-    )
-    def handle_back(self, action):
-        """Back button."""
-        if self.wizard.validate_back:
-            # If enabled, allow navigating back only if the current
-            # step validates and can be saved.
-            data, errors = self.extractData()
-            if errors:
-                self.status = self.wizard.form_errors_message
-                self.mark_finished(False)
-                return
-            self.apply_changes(data)
-            self.mark_finished(True)
-
-        self.wizard.update_current_step(self.wizard.current_index - 1)
-
-        # Going back can change the conditions for the finish button,
-        # so we need to reconstruct the button actions, since we
-        # do not redirect.
-        self.wizard.updateActions()
-
-    @button.buttonAndHandler(
         u'Continue',
         name='continue',
         condition=lambda form: form.wizard.show_continue()
@@ -186,6 +146,46 @@ class Step(form.Form):
         # Clear out the session
         del self.wizard.request_session[self.wizard.session_key]
         self.wizard.sync()
+
+    @button.buttonAndHandler(
+        u'Back',
+        name='back',
+        condition=lambda form: form.wizard.show_back(),
+    )
+    def handle_back(self, action):
+        """Back button."""
+        if self.wizard.validate_back:
+            # If enabled, allow navigating back only if the current
+            # step validates and can be saved.
+            data, errors = self.extractData()
+            if errors:
+                self.status = self.wizard.form_errors_message
+                self.mark_finished(False)
+                return
+            self.apply_changes(data)
+            self.mark_finished(True)
+
+        self.wizard.update_current_step(self.wizard.current_index - 1)
+
+        # Going back can change the conditions for the finish button,
+        # so we need to reconstruct the button actions, since we
+        # do not redirect.
+        self.wizard.updateActions()
+
+    @button.buttonAndHandler(
+        u'Cancel',
+        name='cancel',
+    )
+    def handle_cancel(self, action):
+        """Clear button."""
+        # Clear out the session
+        try:
+            del self.wizard.request_session[self.wizard.session_key]
+        except KeyError:
+            pass
+        else:
+            self.wizard.sync()
+        self.request.response.redirect(absoluteURL(self.context, self.request))
 
 
 @implementer(IWizard)
