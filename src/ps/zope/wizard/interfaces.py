@@ -108,6 +108,10 @@ class IWizard(IForm):
         all user input (data).
         """)
 
+    confirmation_page_name = Attribute("""
+        The confirmation page name shown after completed.
+        """)
+
     def initialize():
         """Called the first time a wizard is viewed in a new wizard session.
 

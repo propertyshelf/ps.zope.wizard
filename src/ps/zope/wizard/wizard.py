@@ -209,6 +209,7 @@ class Wizard(form.Form):
 
     success_message = u'Information submitted successfully.'
     form_errors_message = u'There were errors.'
+    confirmation_page_name = None
 
     def update(self):
         """See z3c.form.interfaces.IForm."""
@@ -319,6 +320,12 @@ class Wizard(form.Form):
         The default implementation calls the 'apply_steps' method.
         """
         self.apply_steps(self.context)
+
+    def confirmation_page_url(self):
+        return '{0}/{1}'.format(
+            absoluteURL(self.context, self.request),
+            self.confirmation_page_name or '',
+        )
 
     def apply_steps(self, context):
         """Update a context based on the wizard session data.
