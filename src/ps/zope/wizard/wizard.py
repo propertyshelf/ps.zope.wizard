@@ -149,9 +149,11 @@ class Step(form.Form):
         data, errors = self.extractData()
         if errors:
             self.status = self.wizard.form_errors_message
+            self.mark_finished(False)
             return
         else:
             self.status = self.wizard.success_message
+            self.mark_finished(True)
             self.wizard.finished = True
         self.wizard.current_step.apply_changes(data)
         self.wizard.finish()
