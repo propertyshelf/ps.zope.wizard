@@ -156,10 +156,13 @@ class Step(form.Form):
             self.mark_finished(True)
             self.wizard.finished = True
         self.wizard.current_step.apply_changes(data)
-        self.wizard.finish()
-        # Clear out the session
-        del self.wizard.request_session[self.wizard.session_key]
-        self.wizard.sync()
+        if self.wizard.finish():
+            # Clear out the session
+            del self.wizard.request_session[self.wizard.session_key]
+            self.wizard.sync()
+        self.mark_finished(False)
+        self.wizard.next_url = None
+        self.wizard.jump(0)
 
     @button.buttonAndHandler(
         u'Back',
