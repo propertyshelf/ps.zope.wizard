@@ -79,7 +79,8 @@ class Step(form.Form):
 
     @property
     def finished(self):
-        return self.prefix in self.wizard.session
+        content = self.getContent()
+        return content.get('_finished', False)
 
     def apply_changes(self, data):
         """Save changes from this step to its content.
@@ -97,6 +98,15 @@ class Step(form.Form):
     def apply(self, context, **kw):
         """Update a context based on the session data for this step."""
         pass
+
+    def mark_finished(self, finished):
+        if not isinstance(finished, bool):
+            try:
+                finished = bool(finished)
+            except TypeError:
+                finished = False
+        content = self.getContent()
+        content['_finished'] = finished
 
     @button.buttonAndHandler(
         u'Cancel',
@@ -126,8 +136,10 @@ class Step(form.Form):
             data, errors = self.extractData()
             if errors:
                 self.status = self.wizard.form_errors_message
+                self.mark_finished(False)
                 return
             self.apply_changes(data)
+            self.mark_finished(True)
 
         self.wizard.update_current_step(self.wizard.current_index - 1)
 
@@ -146,8 +158,10 @@ class Step(form.Form):
         data, errors = self.extractData()
         if errors:
             self.status = self.wizard.form_errors_message
+            self.mark_finished(False)
         else:
             self.apply_changes(data)
+            self.mark_finished(True)
             self.wizard.update_current_step(self.wizard.current_index + 1)
 
             # Proceeding can change the conditions for the finish button,
