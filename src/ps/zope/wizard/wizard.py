@@ -228,6 +228,17 @@ class Wizard(form.Form):
         self.jump_to_current_step()
         super(Wizard, self).update()
 
+    def updateActions(self):
+        """See z3c.form.interfaces.IForm."""
+        # Allow the current step to determine whether the wizard navigation
+        # is enabled.
+        form.Form.updateActions(self)
+        if not self.current_step.enabled:
+            if self.on_last_step:
+                self.actions['finish'].disabled = 'disabled'
+            else:
+                self.actions['continue'].disabled = 'disabled'
+
     @property
     def session_key(self):
         """Return the unique session key used by this wizard instance."""
