@@ -388,3 +388,12 @@ class Wizard(form.Form):
 
     def show_back(self):
         return not self.on_first_step
+
+    def get_all_data(self):
+        result = {}
+        for step in self.active_steps:
+            data = self.session.get(step.prefix, None)
+            result.update(data)
+        if '_finished' in result.keys():
+            del result['_finished']
+        return result
