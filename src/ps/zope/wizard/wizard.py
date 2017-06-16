@@ -334,6 +334,7 @@ class Wizard(form.Form):
         """
         self.apply_steps(self.context)
         self.next_url = self.confirmation_page_url()
+        return True
 
     def confirmation_page_url(self):
         return '{0}/{1}'.format(
