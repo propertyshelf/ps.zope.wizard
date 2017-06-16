@@ -1,5 +1,4 @@
 <div class="form"
-    tal:condition="not:view/finished"
     tal:attributes="id string:wizard-step-${view/current_step/id}">
 
   <h1 tal:condition="view/label"
