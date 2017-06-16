@@ -108,6 +108,11 @@ class Step(form.Form):
         content = self.getContent()
         content['_finished'] = finished
 
+    @property
+    def next_url(self):
+        """Next step url known by wizard."""
+        return self.wizard.next_url
+
     @button.buttonAndHandler(
         u'Continue',
         name='continue',
@@ -209,6 +214,7 @@ class Wizard(form.Form):
 
     success_message = u'Information submitted successfully.'
     form_errors_message = u'There were errors.'
+    next_url = None
     confirmation_page_name = None
 
     def update(self):
@@ -320,6 +326,7 @@ class Wizard(form.Form):
         The default implementation calls the 'apply_steps' method.
         """
         self.apply_steps(self.context)
+        self.next_url = self.confirmation_page_url()
 
     def confirmation_page_url(self):
         return '{0}/{1}'.format(
