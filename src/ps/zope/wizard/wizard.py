@@ -77,6 +77,13 @@ class Step(form.Form):
             self.wizard.sync()
         super(Step, self).update()
 
+    def render(self):
+        # render content template
+        if self.next_url is not None:
+            self.request.response.redirect(self.next_url)
+            return u''
+        return super(Step, self).render()
+
     @property
     def finished(self):
         content = self.getContent()
