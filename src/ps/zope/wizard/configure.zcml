@@ -4,4 +4,9 @@
 
   <include package="z3c.form" />
 
+  <adapter
+      factory=".traversal.WizardWidgetTraversal"
+      name="widget"
+      />
+
 </configure>
