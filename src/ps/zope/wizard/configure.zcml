@@ -4,9 +4,38 @@
 
   <include package="z3c.form" />
 
+  <class class=".wizard.Wizard">
+    <implements
+        interface="ps.zope.wizard.interfaces.IWizard" />
+
+    <require
+        interface="ps.zope.wizard.interfaces.IWizard"
+        permission="zope.View"
+        />
+  </class>
+
+  <class class=".wizard.Step">
+    <implements
+        interface="ps.zope.wizard.interfaces.IStep" />
+
+    <require
+        interface="ps.zope.wizard.interfaces.IStep"
+        permission="zope.View"
+        />
+  </class>
+
+  <class class=".traversal.WizardWidgetTraversal">
+
+    <require
+        interface="zope.traversing.interfaces.ITraversable"
+        permission="zope.View"
+        />
+  </class>
+
   <adapter
       factory=".traversal.WizardWidgetTraversal"
       name="widget"
+      trusted="true"
       />
 
 </configure>
