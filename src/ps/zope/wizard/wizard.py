@@ -160,6 +160,7 @@ class Step(form.Form):
             # Clear out the session
             del self.wizard.request_session[self.wizard.session_key]
             self.wizard.sync()
+            return
         self.mark_finished(False)
         self.wizard.next_url = None
         self.wizard.jump(0)
